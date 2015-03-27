@@ -27,10 +27,12 @@ public class SlackRedirectPlugin implements Plugin {
 	private String teamName;
 	private String apiToken;
 	private Map<String, SlackPacketInterceptor> packetInterceptors;
+	private Map<String, UserSetting> userSettings;
 	
 	public SlackRedirectPlugin()
 	{
 		packetInterceptors = new HashMap<String, SlackPacketInterceptor>();
+		userSettings = new HashMap<String, UserSetting>();
 	}
 
 	@Override
@@ -56,7 +58,7 @@ public class SlackRedirectPlugin implements Plugin {
 		packetInterceptors.clear();
 	}
 
-	private void reloadInterceptors() {
+	public void reloadInterceptors() {
 		clearInterceptors();
 		
 		Group group;
@@ -73,6 +75,10 @@ public class SlackRedirectPlugin implements Plugin {
 	
 			String name = jid.getNode();
 			SlackPacketInterceptor pi = new SlackPacketInterceptor(name, teamName, apiToken);
+			
+			if (userSettings.containsKey(name))
+				pi.setImageUrl(userSettings.get(name).getImageUrl());
+			
 			IM.addUserInterceptor(name, 0, pi);
 			packetInterceptors.put(name, pi);
 		}
@@ -124,6 +130,19 @@ public class SlackRedirectPlugin implements Plugin {
 		SlackPacketInterceptor pi = packetInterceptors.get(userName);
 		if (pi != null)
 			pi.setImageUrl(imageUrl);
-		JiveGlobals.setProperty(SLACK_IMAGE_URL + userName, imageUrl);
+	}
+	
+	public void clearUserSettings() {
+		userSettings.clear();
+	}
+	
+	public UserSetting getUserSetting(String userName) {
+		if (userSettings.containsKey(userName))
+			return userSettings.get(userName);
+		else {
+			UserSetting userSetting = new UserSetting(userName);
+			userSettings.put(userName, userSetting);
+			return userSetting;
+		}
 	}
 }

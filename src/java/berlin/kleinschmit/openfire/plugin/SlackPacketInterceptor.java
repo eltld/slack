@@ -75,5 +75,6 @@ public class SlackPacketInterceptor implements PacketInterceptor {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+		JiveGlobals.setProperty(SlackRedirectPlugin.SLACK_IMAGE_URL + userName, imageUrl);
 	}
 }
