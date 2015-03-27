@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Plugin configuration for the broadcast plugin.
+-->
+<plugin>
+
+    <!-- Main plugin class -->
+    <class>berlin.kleinschmit.openfire.plugin.SlackRedirectPlugin</class>
+
+    <!-- Plugin meta-data -->
+    <name>Slack redirector</name>
+    <description>Redirects certain (configurable) messages to a slack domain.</description>
+    <author>Wolfgang Kleinschmit</author>
+    <version>1.2.0</version>
+    <date>2015-03-24</date>
+    <url>http://www.evampires.net</url>
+    <minServerVersion>3.9.0</minServerVersion>
+    
+    <!-- UI extension -->
+    <adminconsole>		
+        <tab id="tab-server">
+            <sidebar id="sidebar-server-settings">
+                <item id="slack-settings" name="Slack Redirector"
+                      url="slack-settings.jsp"
+                      description="Click to configure Slack Redirector" />
+            </sidebar>
+        </tab>
+    </adminconsole>
+</plugin>
